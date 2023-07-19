@@ -2,7 +2,8 @@ name: caller
 
 on:
   push:
-    branches: [ ** ]
+    branches:
+      - **
 
 jobs:
   calling-job:
