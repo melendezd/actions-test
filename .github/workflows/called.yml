@@ -15,6 +15,9 @@ jobs:
       - run: env
       - run: echo ${{ secrets.secret1 }}
       - run: echo ${{ secrets.secret2 }}
+      - run: echo begin
+      - run: echo hello ${{ secrets.secret3 }}
+      - run: echo end
       - run: echo ${{ vars.var1 }}
       - run: echo ${{ vars.var2 }}
     
