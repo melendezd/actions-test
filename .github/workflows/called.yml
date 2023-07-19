@@ -13,4 +13,8 @@ jobs:
     environment: ${{ inputs.environment }}
     steps:
       - run: env
+      - run: echo ${{ secrets.secret1 }}
+      - run: echo ${{ secrets.secret2 }}
+      - run: echo ${{ vars.var1 }}
+      - run: echo ${{ vars.var2
     
