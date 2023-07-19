@@ -1,9 +1,7 @@
 name: caller
 
 on:
-  push:
-    branches:
-      - '**'
+  push
 
 jobs:
   calling-job:
