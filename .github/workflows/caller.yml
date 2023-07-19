@@ -1,0 +1,12 @@
+name: caller
+
+on:
+  push:
+    branches: [ ** ]
+
+jobs:
+  calling-job:
+    uses: ./.github/workflows/called.yml
+    with:
+      environment: qa
+    secrets: inherit
