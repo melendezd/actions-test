@@ -3,7 +3,7 @@ name: caller
 on:
   push:
     branches:
-      - **
+      - '**'
 
 jobs:
   calling-job:
