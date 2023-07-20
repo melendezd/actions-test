@@ -10,15 +10,15 @@ on:
       container-name:
         required: true
         type: string
-        description: 'Name of the Docker container to deploy'
+        description: 'Docker container name'
       container-registry:
         required: true
         type: string
-        description: 'Registry for the Docker container'
+        description: 'Docker container registry'
       container-tag:
         required: true
         type: string
-        description: 'Tag of the Docker container to deploy'
+        description: 'Docker container tag'
 
 jobs:
   deploy:
