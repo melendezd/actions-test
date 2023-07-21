@@ -1,0 +1,43 @@
+name: Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      testing-evidence:
+        required: true
+        type: string
+        description: 'List B&I  numbers with test evidence for the deployment'
+      container-name:
+        required: true
+        type: string
+        description: 'Docker container name'
+      container-registry:
+        required: true
+        type: string
+        description: 'Docker container registry'
+      container-tag:
+        required: true
+        type: string
+        description: 'Docker container tag'
+
+jobs:
+  deploy-dev:
+    runs-on: ubuntu-latest
+    environment: dev
+    steps:
+      - run: echo 'deploying to dev'
+
+  deploy-qa:
+    needs: deploy-dev
+    runs-on: ubuntu-latest
+    environment: qa
+    steps:
+      - run: echo 'deploying to qa'
+
+  deploy-prod:
+    needs: deploy-qa
+    runs-on: ubuntu-latest
+    environment: prod
+    steps:
+      - run: echo 'deploying to prod'
+
