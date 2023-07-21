@@ -35,7 +35,7 @@ jobs:
             echo 'Waiting for 3 seconds...'
             sleep 3
             echo 'Retrieving approval comment...'
-            approval_comment="$(curl -sN "$approvals_api_url" | jq -Mr "$prod_approval_comment_jq_filter")"
+            approval_comment="$(curl -sN "$approvals_api_url" | jq -Mra "$prod_approval_comment_jq_filter")"
             [[ $approval_comment != 'null' ]] && break
           done
 
