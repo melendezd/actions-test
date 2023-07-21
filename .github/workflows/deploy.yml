@@ -32,7 +32,8 @@ jobs:
     runs-on: ubuntu-latest
     environment: qa
     steps:
-      - run: echo 'deploying to qa'
+      - run: |
+          echo "${{ fromJSON(github.event) }}"
 
   deploy-prod:
     needs: deploy-qa
@@ -40,5 +41,5 @@ jobs:
     environment: prod
     steps:
       - run: |
-          echo "${{ github.event }}"
+          echo "${{ fromJSON(github.event) }}"
 
