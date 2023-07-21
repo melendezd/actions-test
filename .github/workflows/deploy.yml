@@ -16,7 +16,7 @@ jobs:
     environment: qa
     steps:
       - run: |
-          echo "${{ fromJSON(github.event) }}"
+          curl -sN "${{ github.api_url }}/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/approvals"
 
   deploy-prod:
     needs: deploy-qa
