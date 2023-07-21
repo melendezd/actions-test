@@ -46,7 +46,9 @@ jobs:
 
           echo "Success!"
 
-          echo "testing_evidence=\"$approval_comment\"" >> $GITHUB_OUTPUT
+          echo "testing_evidene<<EOF" >> $GITHUB_OUTPUT
+          echo "$approval_comment" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
       - name: Print testing evidence
         run: |
           echo "${{ steps.retrieve_testing_evidence.outputs.testing_evidence }}"
