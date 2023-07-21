@@ -28,7 +28,7 @@ jobs:
         run: |
           prod_approval_comment_jq_filter='map(select(.environments[0].name == "prod")) | .[0].comment'
           approvals_api_url="${{ github.api_url }}/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/approvals"
-          approval_comment="$(curl -sN $approvals_api_url | jq -Mr $prod_approval_comment_jq_filter)"
+          approval_comment="$(curl -sN "$approvals_api_url" | jq -Mr "$prod_approval_comment_jq_filter")"
           if [ $approval_comment = 'null' ]; then
             echo 'Could not retrieve testing evidence. Aborting deployment.'
           fi
