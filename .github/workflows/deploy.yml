@@ -46,7 +46,7 @@ jobs:
 
           echo "Success!"
 
-          echo "testing_evidene<<EOF" >> $GITHUB_OUTPUT
+          echo "testing_evidence<<EOF" >> $GITHUB_OUTPUT
           echo "$approval_comment" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
       - name: Print testing evidence
