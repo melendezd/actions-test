@@ -36,11 +36,12 @@ jobs:
             sleep 3
             echo 'Retrieving approval comment...'
             approval_comment="$(curl -sN "$approvals_api_url" | jq -Mra "$prod_approval_comment_jq_filter")"
+            echo "$approval_comment"
             echo 'Retrieved approval comment'
             [[ "$approval_comment" != 'null' ]] && break
           done
 
-          if [[ $approval_comment == 'null' ]]; then
+          if [[ "$approval_comment" == 'null' ]]; then
             echo 'Could not retrieve testing evidence. Aborting deployment.'
             exit 1
           fi
