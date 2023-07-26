@@ -2,6 +2,11 @@ name: Deploy
 
 on:
   workflow_dispatch:
+    inputs:
+      container-tag:
+        required: true
+        type: string
+        description: Docker container tag
 
 jobs:
   deploy-dev:
@@ -22,6 +27,8 @@ jobs:
     needs: deploy-qa
     runs-on: ubuntu-latest
     environment: prod
+    permissions:
+      actions: read
     steps:
       - name: Retrieve testing evidence
         id: retrieve_testing_evidence
@@ -36,7 +43,7 @@ jobs:
             sleep 3
             echo 'Retrieving approval comment...'
             approval_comment="$(curl -sN "$approvals_api_url" | jq -Mr "$prod_approval_comment_jq_filter")"
-            [[ "$approval_comment" != 'null' ]] && break
+            if [[ "$approval_comment" != 'null' ]]; then break; fi
           done
 
           if [[ "$approval_comment" == 'null' ]]; then
