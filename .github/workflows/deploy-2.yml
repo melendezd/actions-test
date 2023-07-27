@@ -1,0 +1,61 @@
+name: NEW MANUAL WORKFLOW
+
+on:
+  workflow_dispatch:
+    inputs:
+      container-tag:
+        required: true
+        type: string
+        description: Docker container tag
+
+jobs:
+  deploy-dev:
+    runs-on: ubuntu-latest
+    environment: dev
+    steps:
+      - run: echo 'deploying to dev'
+
+  deploy-qa:
+    needs: deploy-dev
+    runs-on: ubuntu-latest
+    environment: qa
+    steps:
+      - run: |
+          curl -sN "${{ github.api_url }}/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/approvals"
+
+  deploy-prod:
+    needs: deploy-qa
+    runs-on: ubuntu-latest
+    environment: prod
+    permissions:
+      actions: read
+    steps:
+      - name: Retrieve testing evidence
+        id: retrieve_testing_evidence
+        run: |
+          prod_approval_comment_jq_filter='map(select(.environments[0].name == "prod")) | .[0].comment'
+          approvals_api_url="${{ github.api_url }}/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/approvals"
+
+          echo 'Retrieving testing evidence from GitHub actions API.'
+          for attempt_count in {1..5}; do
+            echo "Attempt $attempt_count"
+            echo 'Waiting for 3 seconds...'
+            sleep 3
+            echo 'Retrieving approval comment...'
+            approval_comment="$(curl -sN "$approvals_api_url" | jq -Mr "$prod_approval_comment_jq_filter")"
+            if [[ "$approval_comment" != 'null' ]]; then break; fi
+          done
+
+          if [[ "$approval_comment" == 'null' ]]; then
+            echo 'Could not retrieve testing evidence. Aborting deployment.'
+            exit 1
+          fi
+
+          echo "Success!"
+
+          echo "testing_evidence<<EOF" >> $GITHUB_OUTPUT
+          echo "$approval_comment" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+      - name: Print testing evidence
+        run: |
+          echo "${{ steps.retrieve_testing_evidence.outputs.testing_evidence }}"
