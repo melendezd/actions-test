@@ -7,6 +7,10 @@ on:
         required: true
         type: string
         description: Docker container tag
+      input-2:
+        required: true
+        type: string
+        description: this is the second input
 
 jobs:
   do-the-thing:
