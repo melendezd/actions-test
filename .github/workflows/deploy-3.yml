@@ -1,0 +1,19 @@
+name: SECOND NEW MANUAL WORKFLOW
+
+on:
+  workflow_dispatch:
+    inputs:
+      container-tag:
+        required: true
+        type: string
+        description: Docker container tag
+      input-2:
+        required: true
+        type: string
+        description: this is the second input
+
+jobs:
+  do-the-thing:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo 'this is a message 2'
