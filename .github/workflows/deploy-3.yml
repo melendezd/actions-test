@@ -1,6 +1,7 @@
 name: SECOND NEW MANUAL WORKFLOW
 
 on:
+  push:
   workflow_dispatch:
     inputs:
       container-tag:
