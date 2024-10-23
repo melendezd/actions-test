@@ -8,7 +8,7 @@ jobs:
     name: Test 1
     runs-on: ubuntu-latest
     outputs:
-      bark: ${{ steps.step1.outputs.test }}
+      bark: ${{ steps.step1.outputs.bark }}
       two: ruff
     steps:
       - id: step1
