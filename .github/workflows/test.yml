@@ -25,6 +25,7 @@ jobs:
     steps:
       - run: |
           echo "hello 2: ${{ needs.job1.outputs.two }}"
+          echo "hello 2: ${{ needs.job1.outputs.bark }}"
 
   job3:
     name: Test 3
@@ -34,3 +35,4 @@ jobs:
     steps:
       - run: |
           echo "hello 3: ${{ needs.job1.outputs.two }}"
+          echo "hello 2: ${{ needs.job1.outputs.bark }}"
