@@ -1,0 +1,31 @@
+name: Test
+
+on:
+  push:
+
+jobs:
+  job1:
+    name: Test 1
+    runs-on: gcp
+    steps:
+      - run: |
+          echo "hello 1"
+
+  job2:
+    name: Test 2
+    runs-on: gcp
+    needs: job1
+    if: ${{ github.run_attempt > 1 }}
+    environment: qa
+    steps:
+      - run: |
+          echo "hello 2"
+
+  job3:
+    name: Test 3
+    runs-on: gcp
+    needs: job2
+    environment: prod
+    steps:
+      - run: |
+          echo "hello 3"
