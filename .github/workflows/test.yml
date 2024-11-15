@@ -8,6 +8,7 @@ jobs:
   job1:
     name: Test 1
     runs-on: ubuntu-latest
-    environment: prod
     steps:
       - run: echo 'test step 1'
+      - run: |
+          echo "event_name: ${{ github.event_name }}"
