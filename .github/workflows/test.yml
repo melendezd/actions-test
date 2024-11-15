@@ -23,7 +23,7 @@ jobs:
           echo "woof=$woof" >> "$GITHUB_OUTPUT"
       - run: |
           bark="${{ steps.woof.outputs.woof }}"
-          echo bark = $bark"
+          echo bark = $bark
           echo "event_name: ${{ github.event_name }}"
           echo "github.sha: ${{ github.sha }}"
           echo "inputs.commit_sha: ${{ inputs.commit_sha }}"
