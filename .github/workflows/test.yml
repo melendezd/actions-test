@@ -4,6 +4,12 @@ name: Test
 on:
   push:
   workflow_dispatch:
+    inputs:
+      commit_sha:
+        description: Commit SHA to build and deploy. Leave empty to deploy latest commit from the selected branch.
+        required: false
+        default: ''
+
 
 jobs:
   job1:
@@ -13,4 +19,10 @@ jobs:
       - run: echo 'test step 1'
       - run: |
           echo "event_name: ${{ github.event_name }}"
-          echo "commit sha: ${{ github.sha }}"
+          echo "github.sha: ${{ github.sha }}"
+          echo "inputs.commit_sha: ${{ inputs.commit_sha }}"
+
+          commit_sha="${{ github.event_name == 'push' && github.sha || (inputs.commit_sha || github.sha) }}"
+          echo "final commit sha: $commit_sha"
+
+
