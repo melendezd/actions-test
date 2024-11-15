@@ -12,3 +12,4 @@ jobs:
       - run: echo 'test step 1'
       - run: |
           echo "event_name: ${{ github.event_name }}"
+          echo "commit sha: ${{ github.sha }}"
