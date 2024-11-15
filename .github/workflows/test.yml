@@ -18,6 +18,9 @@ jobs:
     steps:
       - run: echo 'test step 1'
       - run: |
+          woof="test env var"
+      - run: |
+          echo "woof = $woof"
           echo "event_name: ${{ github.event_name }}"
           echo "github.sha: ${{ github.sha }}"
           echo "inputs.commit_sha: ${{ inputs.commit_sha }}"
