@@ -17,10 +17,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo 'test step 1'
-      - run: |
+      - id: woof
+        run: |
           woof="test env var"
+          echo "woof=$woof" >> "$GITHUB_OUTPUT"
       - run: |
-          echo "woof = $woof"
+          bark="${{ steps.woof.outputs.woof }}"
+          echo bark = $bark"
           echo "event_name: ${{ github.event_name }}"
           echo "github.sha: ${{ github.sha }}"
           echo "inputs.commit_sha: ${{ inputs.commit_sha }}"
