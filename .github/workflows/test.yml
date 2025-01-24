@@ -29,7 +29,8 @@ jobs:
     needs: [prompt-prod, build]
     runs-on: ubuntu-latest
     steps:
-      - run: echo "pre-deploying to prod: ${{ needs.build.outputs.build_number }}"
+      - run: |
+          echo "pre-deploying to prod: ${{ needs.build.outputs.build_number }}"
 
   deploy-prod-2:
     name: Deploy prod 1
