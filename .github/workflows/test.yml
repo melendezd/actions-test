@@ -28,7 +28,7 @@ jobs:
         run: |
           run_attempt=${{github.run_attempt}}
           echo "Got approval for prod deployment on run attempt $run_attempt"
-          echo 'approved_run_attempt="${{github.run_attempt}}"' >> "$GITHUB_OUTPUT"
+          echo "approved_run_attempt=$run_attempt" >> "$GITHUB_OUTPUT"
 
   deploy-prod-1:
     name: Deploy prod 1
