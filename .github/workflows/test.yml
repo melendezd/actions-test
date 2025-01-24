@@ -21,12 +21,19 @@ jobs:
     needs: build
     environment: prod
     runs-on: ubuntu-latest
+    outputs:
+      approved_run_attempt: ${{ steps.get-approved-run-attempt.outputs.approved_run_attempt }}
     steps:
-      - run: echo 'Waiting for prod approval...'
+      - id: get-approved-run-attempt
+        run: |
+          run_attempt=${{github.run_attempt}}
+          echo "Got approval for prod deployment on run attempt $run_attempt"
+          echo 'approved_run_attempt="${{github.run_attempt}}"' >> "$GITHUB_OUTPUT"
 
   deploy-prod-1:
     name: Deploy prod 1
     needs: [prompt-prod, build]
+    if: ${{ github.run_attempt == needs.prompt-prod.outputs.approved_run_attempt }}
     runs-on: ubuntu-latest
     steps:
       - run: |
@@ -35,6 +42,7 @@ jobs:
   deploy-prod-2:
     name: Deploy prod 2
     needs: [deploy-prod-1, build, prompt-prod]
+    if: ${{ github.run_attempt == needs.prompt-prod.outputs.approved_run_attempt }}
     runs-on: ubuntu-latest
     steps:
       - run: |
