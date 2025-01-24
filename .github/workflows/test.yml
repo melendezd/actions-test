@@ -5,11 +5,35 @@ on:
   workflow_dispatch:
 
 jobs:
-  job1:
-    name: Test 1
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    outputs:
+      build_number: ${{ steps.build.outputs.build_number }}
+    steps:
+      - id: build
+        run: |
+          run_attempt=${{github.run_attempt}}
+          echo 'build_number="woof${{github.run_attempt}}"' >> "$GITHUB_OUTPUT"
+
+  prompt-prod:
+    name: Prompt prod
+    needs: build
+    environment: prod
     runs-on: ubuntu-latest
     steps:
-      - run: echo 'test step 1'
-      - run: |
-          echo "event_name: ${{ github.event_name }}"
-          echo "commit sha: ${{ github.sha }}"
+      - run: echo 'Waiting for prod approval...'
+
+  deploy-prod-1:
+    name: Deploy prod 1
+    needs: [prompt-prod, build]
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo 'pre-deploying to prod: ${{ needs.build.outputs.build_number }}'
+
+  deploy-prod-2:
+    name: Deploy prod 1
+    needs: [deploy-prod-2, build, prompt-prod]
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo 'deploying to prod: ${{ needs.build.outputs.build_number }}'
